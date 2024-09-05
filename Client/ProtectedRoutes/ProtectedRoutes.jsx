@@ -1,9 +1,25 @@
 import { Outlet, Navigate } from "react-router-dom";
-import Cookies from 'js-cookie';
+import { useState, useEffect } from "react";
+import axios from 'axios';
 
 export default function ProtectedRoutes() {
-  const refreshToken = Cookies.get('token') 
-  let auth = { token: refreshToken};
-  console.log("In protected route, token:", refreshToken)
-  return auth.token ? <Outlet /> : <Navigate to="/login" />;
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+  useEffect(() => {
+    // Perform an API request to check if the user is authenticated
+    axios.get('/authenticated', { withCredentials: true })
+      .then(response => {
+        setIsAuthenticated(true);
+      })
+      .catch(error => {
+        setIsAuthenticated(false);
+      });
+  }, []);
+
+  if (isAuthenticated === null) {
+    // Loading state while checking authentication
+    return <div>Loading...</div>;
+  }
+
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 }

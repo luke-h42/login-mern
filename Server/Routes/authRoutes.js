@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors'
-import {test, registerUser, loginUser, getProfile, logoutUser} from '../Controllers/authController.js'
+import {test, registerUser, loginUser, getProfile, logoutUser, checkAuthenticated} from '../Controllers/authController.js'
 
 
 const router = express.Router();
@@ -14,6 +14,7 @@ router.use(
 
 router.get('/', test)
 router.post('/register', registerUser)
+router.get('/authentication', checkAuthenticated)
 router.post('/login', loginUser)
 router.get('/profile', getProfile)
 router.post('/logout', logoutUser)
