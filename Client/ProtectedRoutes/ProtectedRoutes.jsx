@@ -6,6 +6,7 @@ export default function ProtectedRoutes() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
+
     axios.get('/authentication', { withCredentials: true })
       .then(response => {
         setIsAuthenticated(true);
@@ -15,6 +16,10 @@ export default function ProtectedRoutes() {
       });
   }, []);
 
+  if (isAuthenticated === null) {
+    // Loading state while checking authentication
+    return <div>Loading...</div>;
+  }
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 }
