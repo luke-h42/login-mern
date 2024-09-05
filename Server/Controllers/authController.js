@@ -70,7 +70,7 @@ export const loginUser = async (req, res) => {
         if(match) {
             jwt.sign({email: user.email, id: user._id, name: user.name}, process.env.JWT_SECRET, {}, (err, token) => {
                 if(err) throw err;
-                res.cookie('token', token, { path: '/',  httpOnly: true, maxAge: 6 * 60 * 60 * 1000, sameSite: 'None' }).json(user);
+                res.cookie('token', token, { secure: true, path: '/',  httpOnly: true, maxAge: 6 * 60 * 60 * 1000, sameSite: 'none', domain: 'vercel.app', }).json(user);
             })
 
         }
