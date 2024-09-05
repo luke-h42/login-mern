@@ -24,17 +24,21 @@ export default function Navbar() {
   return (
     <nav className="flex justify-center bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300">
       <div className='flex w-8/12 px-2 py-2 items-center justify-between' >
-      {!user && <>
-        <a href='/' >Home</a>
-        <a href='/login' >Login</a>
-        <a href='/register' >Register</a>
-      </>}
-      
-        {!!user && (<>
-          <a href='/' >Home</a>
-          <a href='/dashboard' >Dashboard</a>
-          <button onClick={handleSignOut}>Sign Out</button>
-        </>)}
+      {!user ? (
+          <>
+            <a href='/'>Home</a>
+            <a href='/login'>Login</a>
+            <a href='/register'>Register</a>
+          </>
+        ) : (
+          <>
+            <a href='/'>Home</a>
+            <a href='/dashboard'>Dashboard</a>
+            <button onClick={handleSignOut} disabled={isLoggingOut}>
+              {isLoggingOut ? 'Signing Out...' : 'Sign Out'}
+            </button>
+          </>
+        )}
        
       </div>
     </nav>
