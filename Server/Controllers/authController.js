@@ -70,7 +70,7 @@ export const loginUser = async (req, res) => {
         if(match) {
             jwt.sign({email: user.email, id: user._id, name: user.name}, process.env.JWT_SECRET, {}, (err, token) => {
                 if(err) throw err;
-                res.cookie('token', token, {httpOnly: false, sameSite: 'None', secure: true, path: "/"}).json(user);
+                res.cookie('token', token, {httpOnly: true, sameSite: 'None', secure: true, path: "/"}).json(user);
             })
 
         }
@@ -109,6 +109,6 @@ export const getProfile = (req,res) => {
 }
 
 export const logoutUser = (req, res) => {
-    res.clearCookie('token', {httpOnly: false, sameSite: 'None', secure: true,  path: "/"})
+    res.clearCookie('token', {httpOnly: true, sameSite: 'None', secure: true,  path: "/"})
     res.status(200).json({message: 'Logged out successfully'})
 }
