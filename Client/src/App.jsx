@@ -11,7 +11,7 @@ import Dashboard from './pages/Dashboard'
 import ProtectedRoutes from '../ProtectedRoutes/ProtectedRoutes'
 import NotFound from './pages/NotFound'
 // axios.defaults.baseURL = 'http://localhost:5000'
-axios.defaults.baseURL = 'https://login-mern-nufm.onrender.com'
+axios.defaults.baseURL = 'https://login-mern-gamma.vercel.app/'
 axios.defaults.withCredentials = true
 
 function App() {
