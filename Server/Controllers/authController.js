@@ -97,6 +97,6 @@ export const getProfile = (req,res) => {
 }
 
 export const logoutUser = (req, res) => {
-    res.clearCookie('token')
+    res.clearCookie('token', {httpOnly: true, sameSite: 'None', secure: true})
     res.status(200).json({message: 'Logged out successfully'})
 }
