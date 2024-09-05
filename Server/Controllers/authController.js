@@ -96,3 +96,6 @@ export const getProfile = (req,res) => {
     }
 }
 
+export const logoutUser = (req, res) => {
+    res.cookie('token', '', { expires: new Date(0), httpOnly: true });
+}

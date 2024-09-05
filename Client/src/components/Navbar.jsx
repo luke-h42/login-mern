@@ -8,12 +8,16 @@ import {UserContext} from "../../context/userContext"
 export default function Navbar() {
   const {user, setUser} = useContext(UserContext)
   const navigate = useNavigate()
-  const handleSignOut = () => {
-    cookies.remove('token')
-    setUser(null)
-    toast.success('Signed out')
-    navigate('/')
-  }
+  const handleSignOut = async () => {
+    try {
+      await axios.post('/logout', {}, { withCredentials: true });
+      setUser(null)
+      toast.success('Signed out')
+      navigate('/')
+    } catch (error) {
+      toast.error('Logout failed')
+    }
+  };
 
   return (
     <nav className="flex justify-center bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300">
