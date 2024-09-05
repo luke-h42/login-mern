@@ -31,7 +31,7 @@ export default function Login() {
                 navigate('/dashboard')
             }
         } catch (error) {
-            
+            toast.error('Login Failed');
         }
     }
   return (
