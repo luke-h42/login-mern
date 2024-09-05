@@ -7,7 +7,7 @@ export default function ProtectedRoutes() {
 
   useEffect(() => {
     // Perform an API request to check if the user is authenticated
-    axios.get('/authenticated', { withCredentials: true })
+    axios.get('/authentication', { withCredentials: true })
       .then(response => {
         setIsAuthenticated(true);
       })
