@@ -34,9 +34,7 @@ export default function Navbar() {
           <>
             <a href='/'>Home</a>
             <a href='/dashboard'>Dashboard</a>
-            <button onClick={handleSignOut} disabled={isLoggingOut}>
-              {isLoggingOut ? 'Signing Out...' : 'Sign Out'}
-            </button>
+            <button onClick={handleSignOut}>Sign Out</button>
           </>
         )}
        
