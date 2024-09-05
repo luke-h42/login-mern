@@ -10,7 +10,7 @@ export default function ProtectedRoutes() {
     // Simulate delay for loading state visibility
     const loadingTimeout = setTimeout(() => {
       setShowLoading(false);
-    }, 300); // Show loading state for at least 300ms
+    }, 500);
 
     // Check authentication
     axios.get('/authentication', { withCredentials: true })

@@ -88,7 +88,7 @@ export const checkAuthenticated = (req, res) => {
     if(token) {
         jwt.verify(token, process.env.JWT_SECRET, {}, (err,user) => {
             if(err) throw err;
-            res.json(user)
+            res.json(user);
         })
     } else {
         res.json(null)
