@@ -27,6 +27,7 @@ export default function Login() {
                 setUser(data.user);
                 setData({});
                 toast.success('Login Successful')
+                console.log("About to navigate to dashboard")
                 navigate('/dashboard')
             }
         } catch (error) {
