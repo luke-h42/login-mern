@@ -1,5 +1,6 @@
 import cookies from 'js-cookie'
 import toast from 'react-hot-toast'
+import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useContext } from "react"
 import {UserContext} from "../../context/userContext"
@@ -16,6 +17,7 @@ export default function Navbar() {
       navigate('/')
     } catch (error) {
       toast.error('Logout failed')
+      console.log(error)
     }
   };
 
