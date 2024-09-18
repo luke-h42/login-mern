@@ -21,7 +21,7 @@ Features:
 ##Register
 ![login-mern-register](https://github.com/user-attachments/assets/27e069f0-876c-4df4-801e-46ccc2903c9b)
 ##Login
-![login-mern-login](https://github.com/user-attachments/assets/b52aa704-705d-4a1b-98b4-67b584d885c3)
+![login-mern-login](https://github.com/user-attachments/assets/1e031eea-cac8-4f9d-b98f-29c17a32bd05)
 ##Logged into a protected page
 ![login-mern-logged-in](https://github.com/user-attachments/assets/289cab80-be3a-41e1-b4bb-9289ed16a956)
 ##Toast notifications
