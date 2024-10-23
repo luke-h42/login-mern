@@ -1,21 +1,24 @@
 import toast from "react-hot-toast";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../context/userContext";
 
 export default function Navbar() {
   const { user, setUser } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const handleSignOut = async () => {
+    setIsLoading(true);
     try {
       await axios.post("/api/auth/logout", {}, { withCredentials: true });
       setUser(null);
+      setIsLoading(false);
       toast.success("Signed out");
       navigate("/");
     } catch (error) {
       toast.error("Logout failed");
-      console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -32,7 +35,9 @@ export default function Navbar() {
           <>
             <Link to="/dashboard">Dashboard</Link>
             {user.role === "admin" && <Link to="/admin">Admin</Link>}
-            <button onClick={handleSignOut}>Sign Out</button>
+            <button onClick={handleSignOut} disabled={isLoading}>
+              Sign Out
+            </button>
           </>
         )}
       </div>
