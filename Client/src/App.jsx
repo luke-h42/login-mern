@@ -11,8 +11,10 @@ import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoutes from "../ProtectedRoutes/ProtectedRoutes";
 import NotFound from "./pages/NotFound";
-// axios.defaults.baseURL = "http://localhost:5000";
-axios.defaults.baseURL = "https://login-mern-server.vercel.app";
+axios.defaults.baseURL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000"
+    : "https://login-mern-server.vercel.app";
 axios.defaults.withCredentials = true;
 
 function App() {

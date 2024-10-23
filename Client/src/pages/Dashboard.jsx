@@ -30,20 +30,34 @@ function Dashboard() {
           Hi {user.name}!
         </h2>
       )}
+      {/* Show posts set as active */}
       {loading ? (
-        <p>Loading posts...</p>
+        <p className="text-gray-300">Loading posts...</p>
       ) : (
         <div className="flex flex-col gap-6 my-10 max-w-[80%] min-w-[50%]">
           {posts.length > 0 ? (
             posts.map((post, index) => (
               <div
                 key={post._id}
-                className={`text-gray-300 flex flex-col p-6 rounded-lg ${
+                className={`text-gray-300 flex flex-col md:flex-row md:items-center md:justify-between  p-6 rounded-lg gap-4 ${
                   index % 2 === 0 ? "bg-gray-800" : "bg-gray-700"
                 }`}
               >
-                <h3 className="text-xl text-left">{post.title}</h3>
-                <p className="text-left">{post.message}</p>
+                <div className="flex flex-col gap-2 text-left">
+                  <h3 className="text-xl ">{post.title}</h3>
+                  <p>{post.message}</p>
+                </div>
+                <div>
+                  {post.imageUrls.map((url, imgIndex) => (
+                    <img
+                      key={imgIndex}
+                      src={url}
+                      alt={post.title}
+                      className="mt-2 rounded-md "
+                      style={{ maxWidth: "200px", height: "auto" }}
+                    />
+                  ))}
+                </div>
               </div>
             ))
           ) : (
