@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -12,6 +13,7 @@ export default function Register() {
   });
   const registerUser = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const { name, email, password } = data;
     const lowerCaseEmail = email.toLowerCase();
     const camelName = capitalizeFirstLetter(name);
@@ -25,11 +27,13 @@ export default function Register() {
         toast.error(data.error);
       } else {
         setData({});
+        setIsLoading(false);
         toast.success("Registered successfully");
         navigate("/login");
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Sign up failed, please try again");
+      setIsLoading(false);
     }
   };
 
@@ -102,9 +106,10 @@ export default function Register() {
           <button
             type="submit"
             onClick={registerUser}
+            disabled={isLoading}
             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Sign Up
+            {isLoading ? "Signing up..." : "Signup"}
           </button>
         </form>
       </div>

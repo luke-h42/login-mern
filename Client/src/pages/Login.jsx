@@ -7,12 +7,14 @@ import { UserContext } from "../../context/userContext";
 export default function Login() {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
     email: "",
     password: "",
   });
   const loginUser = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const { email, password } = data;
     try {
       const { data } = await axios.post("/api/auth/login", {
@@ -24,6 +26,7 @@ export default function Login() {
       } else {
         setUser(data.user);
         setData({});
+        setIsLoading(false);
         navigate("/dashboard");
         toast.success("Login Successful");
       }
@@ -79,9 +82,10 @@ export default function Login() {
             type="button"
             name="login"
             onClick={loginUser}
+            disabled={isLoading}
             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
       </div>
