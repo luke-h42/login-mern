@@ -9,6 +9,7 @@ router.use(
         credentials: true,
         // origin: 'http://localhost:5173'
         origin: 'https://login-mern-seven.vercel.app'
+        
     })
 )
 

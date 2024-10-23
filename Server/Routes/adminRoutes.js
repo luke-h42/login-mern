@@ -14,7 +14,6 @@ router.use(
     })
 )
 
-
 router.get('/', test)
 router.post('/upload-post', roleCheck('admin'),[
     body("title").notEmpty().withMessage('Title is required'),
