@@ -68,7 +68,7 @@ function AdminDashboard() {
               </div>
             ))
           ) : (
-            <p>No posts available.</p>
+            <p className="text-gray-300">No posts available.</p>
           )}
         </div>
       )}
