@@ -17,6 +17,11 @@ export default function Register() {
     const { name, email, password } = data;
     const lowerCaseEmail = email.toLowerCase();
     const camelName = capitalizeFirstLetter(name);
+    if (!validateEmail(lowerCaseEmail)) {
+      toast.error("Please enter a valid email address.");
+      setIsLoading(false);
+      return;
+    }
     try {
       const { data } = await axios.post("/api/auth/register", {
         name: camelName,
@@ -38,6 +43,10 @@ export default function Register() {
     }
   };
 
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple regex for email validation
+    return regex.test(email);
+  };
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
