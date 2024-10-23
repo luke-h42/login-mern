@@ -23,6 +23,7 @@ export default function Login() {
       });
       if (data.error) {
         toast.error(data.error);
+        setIsLoading(false);
       } else {
         setUser(data.user);
         setData({});
@@ -31,8 +32,8 @@ export default function Login() {
         toast.success("Login Successful");
       }
     } catch (error) {
-      toast.error("Login Failed");
       setIsLoading(false);
+      toast.error("Login Failed");
     }
   };
   return (

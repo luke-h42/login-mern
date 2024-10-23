@@ -25,6 +25,7 @@ export default function Register() {
       });
       if (data.error) {
         toast.error(data.error);
+        setIsLoading(false);
       } else {
         setData({});
         setIsLoading(false);
