@@ -1,27 +1,46 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 
-export default function ProtectedRoutes() {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+export default function ProtectedRoutes({ allowedRoles }) {
+  const [user, setUser] = useState(null); // Store user data
+  const [isLoading, setIsLoading] = useState(true); // Loading state
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get("/api/auth/authentication", {
+          withCredentials: true,
+        });
+        setUser(response.data);
+      } catch (error) {
+        setUser(null); // User not authenticated
+      } finally {
+        setIsLoading(false); // Stop loading
+      }
+    };
 
-    axios.get('/authentication', { withCredentials: true })
-      .then(response => {
-        setIsAuthenticated(true);
-      })
-      .catch(error => {
-        setIsAuthenticated(false);
-      });
+    fetchUser();
   }, []);
 
-  if (isAuthenticated === null) {
-    // Loading state while checking authentication
-    return <div className="flex items-center justify-center flex-col h-[calc(100vh-40px)] bg-white dark:bg-gray-900">
-      <h1  className="text-5xl text-gray-700 dark:text-gray-300">Loading...</h1>
-      </div>;
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center flex-col h-[calc(100vh-40px)] bg-white dark:bg-gray-900">
+        <h1 className="text-5xl text-gray-700 dark:text-gray-300">
+          Loading...
+        </h1>
+      </div>
+    );
   }
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+  // Check authentication and role
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/dashboard" />; // Redirect if role is not allowed
+  }
+
+  return <Outlet />;
 }

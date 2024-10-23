@@ -2,6 +2,7 @@ import User from '../Models/user.js'
 import { hashPassword, comparePassword } from '../helpers/auth.js'
 import jwt from 'jsonwebtoken'
 
+
 export const test = (req,res) => {
     res.json('test is working')
 }
@@ -10,7 +11,7 @@ export const test = (req,res) => {
 //Register Endpoint
 export const registerUser = async (req, res) => {
     try {
-        const{name, email, password} = req.body;
+        const{name, email, password, role='user'} = req.body;
         // Check if name entered
         if(!name) {
             return res.json({
@@ -38,7 +39,7 @@ export const registerUser = async (req, res) => {
         const hashedPassword = await hashPassword(password)
         // Create user in dB
         const user = await User.create({
-            name, email, password : hashedPassword
+            name, email, password : hashedPassword, role
         })
 
         return res.json(User)
@@ -68,15 +69,16 @@ export const loginUser = async (req, res) => {
         // Check if password matches
         const match = await comparePassword(password, user.password)
         if(match) {
-            jwt.sign({email: user.email, id: user._id, name: user.name}, process.env.JWT_SECRET, {}, (err, token) => {
+            jwt.sign({email: user.email, id: user._id, name: user.name, role: user.role}, process.env.JWT_SECRET, {}, (err, token) => {
                 if(err) throw err;
                 res.cookie('token', token, {httpOnly: true, sameSite: 'None', secure: true, path: "/", maxAge: 3600 * 1000}).json(user);
             })
-
+            
         }
         if(!match) {
             res.json({error: 'Password incorrect'})
         }
+        
     } catch (error) {
         console.log(error)
     }
@@ -88,7 +90,14 @@ export const checkAuthenticated = (req, res) => {
     if(token) {
         jwt.verify(token, process.env.JWT_SECRET, {}, (err,user) => {
             if(err) throw err;
-            res.json(user);
+            req.userId = user.id;
+
+            res.json({
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                role: user.role,
+            });
         })
     } else {
         res.json(null)
@@ -111,4 +120,8 @@ export const getProfile = (req,res) => {
 export const logoutUser = (req, res) => {
     res.clearCookie('token', {httpOnly: true, sameSite: 'None', secure: true,  path: "/"})
     res.status(200).json({message: 'Logged out successfully'})
+}
+
+export const adminRoute = (req, res) => {
+    res.json({message: 'Welcome Admin'})
 }

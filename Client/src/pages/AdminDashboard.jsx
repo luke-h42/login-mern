@@ -1,12 +1,14 @@
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../context/userContext";
+import AddPost from "../components/AddPost";
 import toast from "react-hot-toast";
 import axios from "axios";
-
-function Dashboard() {
+function AdminDashboard() {
   const { user } = useContext(UserContext);
+  const [showModal, setShowModal] = useState(false);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const fetchAllPosts = async () => {
     try {
       const response = await axios.get("/api/admin/get-posts");
@@ -24,16 +26,35 @@ function Dashboard() {
   }, []);
   return (
     <div className="flex items-center flex-col min-h-svh pt-10 bg-white dark:bg-gray-900 text-center">
-      <h1 className="text-5xl text-gray-700 dark:text-gray-300">Dashboard</h1>
+      <h1 className="text-5xl text-gray-700 dark:text-gray-300">
+        Admin Dashboard
+      </h1>
       {!!user && (
-        <h2 className="text-3xl text-gray-700 dark:text-gray-300">
-          Hi {user.name}!
-        </h2>
+        <>
+          <h2 className="text-3xl text-gray-700 dark:text-gray-300">
+            Hi {user.name}!
+          </h2>
+          <button
+            onClick={() => {
+              setShowModal(true);
+            }}
+            className="bg-gray-400  px-4 py-2 rounded-2xl mt-2"
+          >
+            Add post
+          </button>
+          {showModal ? (
+            <AddPost
+              onClose={() => setShowModal(false)}
+              onSubmit={fetchAllPosts}
+            />
+          ) : null}
+        </>
       )}
+      {/* Show posts set as active */}
       {loading ? (
         <p>Loading posts...</p>
       ) : (
-        <div className="flex flex-col gap-6 my-10 max-w-[80%] min-w-[50%]">
+        <div className="flex flex-col gap-6 my-10 min-w-[50%]">
           {posts.length > 0 ? (
             posts.map((post, index) => (
               <div
@@ -55,4 +76,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default AdminDashboard;
